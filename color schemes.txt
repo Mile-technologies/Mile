@@ -1,0 +1,3 @@
+primary background color -1E293B
+text color -F8DFA6
+pnpm expo start -c
