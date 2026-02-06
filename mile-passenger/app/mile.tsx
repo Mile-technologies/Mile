@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   video: {
-    width: 500,
-    height: 500,
+    width: 250,
+    height: 250,
   },
 });

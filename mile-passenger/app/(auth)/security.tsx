@@ -92,7 +92,6 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 32,
-    fontWeight: '600',
     color: '#F8DFA6',
     marginBottom: 16,
     maxWidth: 280,
@@ -139,7 +138,6 @@ const styles = StyleSheet.create({
   },
   cardTitle: {
     fontSize: 20,
-    fontWeight: '600',
     color: '#F8DFA6',
     fontFamily: 'Inter_600SemiBold',
   },
@@ -186,7 +184,6 @@ const styles = StyleSheet.create({
   nextText: {
     color: '#1E293B',
     fontSize: 16,
-    fontWeight: '600',
     fontFamily: 'Inter_600SemiBold',
   },
 });

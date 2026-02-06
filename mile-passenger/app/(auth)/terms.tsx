@@ -64,7 +64,6 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 30,
-    fontWeight: '600',
     color: '#F8DFA6',
     marginBottom: 16,
     fontFamily: 'Inter_600SemiBold',
@@ -122,7 +121,6 @@ const styles = StyleSheet.create({
   navText: {
     color: '#F8DFA6',
     fontSize: 16,
-    fontWeight: '600',
     fontFamily: 'Inter_600SemiBold',
   },
 });

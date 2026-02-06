@@ -56,7 +56,6 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 30,
-    fontWeight: '600',
     color: '#F8DFA6',
     marginBottom: 12,
     fontFamily: 'Inter_600SemiBold',
@@ -81,7 +80,6 @@ const styles = StyleSheet.create({
   primaryButtonText: {
     color: '#1E293B',
     fontSize: 16,
-    fontWeight: '600',
     fontFamily: 'Inter_600SemiBold',
   },
   googleButton: {
@@ -99,7 +97,6 @@ const styles = StyleSheet.create({
   googleButtonText: {
     color: '#1E293B',
     fontSize: 16,
-    fontWeight: '600',
     fontFamily: 'Inter_600SemiBold',
   },
   secondaryButton: {
@@ -111,7 +108,6 @@ const styles = StyleSheet.create({
   secondaryButtonText: {
     color: '#1E293B',
     fontSize: 16,
-    fontWeight: '600',
     fontFamily: 'Inter_600SemiBold',
   },
 });
