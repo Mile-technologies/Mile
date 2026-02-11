@@ -14,4 +14,5 @@ config.resolver.resolveRequest = (context, moduleName, platform) => {
   return context.resolveRequest(context, moduleName, platform);
 };
 
+// Force reload config
 module.exports = config;

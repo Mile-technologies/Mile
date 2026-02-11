@@ -1,4 +1,5 @@
 import { View, Text, StyleSheet, Pressable } from 'react-native';
+import { Gift } from 'phosphor-react-native';
 
 interface WelcomeCardProps {
   name?: string;
@@ -10,18 +11,24 @@ export const WelcomeCard = ({ name = "Aashard" }: WelcomeCardProps) => {
       <View style={styles.welcomeContent}>
         <Text style={styles.welcomeTitle}>Welcome {name}</Text>
         <Text style={styles.welcomeText}>
-          Take your first ride. Rides are usually between US$ 16-US$ 40 in San Francisco Bay Area.
+          Rides around Nairobi are usually between KES 200-KES 1,000.
         </Text>
-        <View style={styles.welcomeActions}>
-          <Pressable style={styles.pillButton}>
-            <Text style={styles.pillText}>FAQs</Text>
-          </Pressable>
-          <Pressable style={styles.pillButton}>
-            <Text style={styles.pillText}>Safety features</Text>
-          </Pressable>
+        
+        <View style={styles.milestoneContainer}>
+          <View style={styles.milestoneHeader}>
+            <View style={styles.iconContainer}>
+              <Gift size={20} color="#0D1522" weight="fill" />
+            </View>
+            <View>
+              <Text style={styles.milestoneTitle}>Bonus Reward</Text>
+              <Text style={styles.milestoneSubtitle}>1 ride away from your first reward</Text>
+            </View>
+          </View>
+          <View style={styles.progressBarBg}>
+            <View style={styles.progressBarFill} />
+          </View>
         </View>
       </View>
-      {/* Illustration placeholder - could use an icon or leave empty for now */}
     </View>
   );
 };
@@ -51,21 +58,46 @@ const styles = StyleSheet.create({
     fontFamily: 'Inter_400Regular',
     marginBottom: 8,
   },
-  welcomeActions: {
+  milestoneContainer: {
+    backgroundColor: 'rgba(248, 223, 166, 0.1)',
+    borderRadius: 12,
+    padding: 12,
+    gap: 10,
+    marginTop: 4,
+  },
+  milestoneHeader: {
     flexDirection: 'row',
+    alignItems: 'center',
     gap: 12,
   },
-  pillButton: {
-    backgroundColor: '#0D1522',
-    paddingVertical: 8,
-    paddingHorizontal: 16,
-    borderRadius: 20,
-    borderWidth: 1,
-    borderColor: '#F8DFA6',
+  iconContainer: {
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    backgroundColor: '#F8DFA6',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
-  pillText: {
+  milestoneTitle: {
     color: '#F8DFA6',
-    fontSize: 13,
+    fontSize: 14,
     fontFamily: 'Inter_600SemiBold',
+  },
+  milestoneSubtitle: {
+    color: '#94A3B8',
+    fontSize: 12,
+    fontFamily: 'Inter_400Regular',
+  },
+  progressBarBg: {
+    height: 6,
+    backgroundColor: 'rgba(248, 223, 166, 0.2)',
+    borderRadius: 3,
+    overflow: 'hidden',
+  },
+  progressBarFill: {
+    height: '100%',
+    width: '80%',
+    backgroundColor: '#F8DFA6',
+    borderRadius: 3,
   },
 });

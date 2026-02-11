@@ -5,6 +5,7 @@ import { HomeSearch } from '../../src/components/home/HomeSearch';
 import { WelcomeCard } from '../../src/components/home/WelcomeCard';
 import { ServiceGrid } from '../../src/components/home/ServiceGrid';
 import { PromoBanner } from '../../src/components/home/PromoBanner';
+import { FloatingAI } from '../../src/components/home/FloatingAI';
 
 export default function HomeScreen() {
   return (
@@ -30,6 +31,7 @@ export default function HomeScreen() {
         <PromoBanner />
 
       </ScrollView>
+      <FloatingAI />
     </SafeAreaView>
   );
 }

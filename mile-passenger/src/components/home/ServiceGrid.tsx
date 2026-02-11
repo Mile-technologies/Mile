@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet, Pressable } from 'react-native';
-import { Car, CalendarCheck, Key, Clock, ArrowRight } from 'phosphor-react-native';
+import { Car, CalendarCheck, Clock, ArrowRight } from 'phosphor-react-native';
 import { useRouter } from 'expo-router';
 
 export const ServiceGrid = () => {
@@ -36,13 +36,6 @@ export const ServiceGrid = () => {
             <CalendarCheck size={32} color="#F8DFA6" weight="fill" />
           </View>
           <Text style={styles.gridLabel}>Reserve</Text>
-        </Pressable>
-        
-        <Pressable onPress={() => handlePress('rental')} style={styles.gridItem}>
-          <View style={styles.iconBox}>
-            <Key size={32} color="#F8DFA6" weight="fill" />
-          </View>
-          <Text style={styles.gridLabel}>Rental</Text>
         </Pressable>
         
         <Pressable onPress={() => handlePress('hourly')} style={styles.gridItem}>
