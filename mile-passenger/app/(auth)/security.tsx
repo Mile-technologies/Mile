@@ -1,14 +1,71 @@
-import { View, Text, StyleSheet, Pressable } from 'react-native';
+import { View, Text, StyleSheet, Pressable, TextInput, Alert, ActivityIndicator } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
 import { Phone, FingerprintSimple } from 'phosphor-react-native';
 import { MotiView } from 'moti';
+import * as LocalAuthentication from 'expo-local-authentication';
+import { useAuthStore } from '../../src/store/authStore';
 
 type Method = 'phone' | 'passkey';
 
 export default function SecurityScreen() {
   const router = useRouter();
   const [method, setMethod] = useState<Method>('passkey');
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const [isAuthenticating, setIsAuthenticating] = useState(false);
+  
+  const { setAuthMethod, setPhoneNumber: setStorePhoneNumber, setBiometricsEnabled } = useAuthStore();
+
+  const handleNext = async () => {
+    if (method === 'phone') {
+      if (!phoneNumber || phoneNumber.length < 10) {
+        Alert.alert('Invalid Phone Number', 'Please enter a valid phone number.');
+        return;
+      }
+      // Save phone preference
+      setAuthMethod('phone');
+      setStorePhoneNumber(phoneNumber);
+      setBiometricsEnabled(false);
+      
+      // Proceed to login
+      router.replace('/(auth)/login');
+    } else {
+      try {
+        setIsAuthenticating(true);
+        const hasHardware = await LocalAuthentication.hasHardwareAsync();
+        if (!hasHardware) {
+          Alert.alert('Not Supported', 'Biometric authentication is not supported on this device.');
+          setIsAuthenticating(false);
+          return;
+        }
+
+        const isEnrolled = await LocalAuthentication.isEnrolledAsync();
+        if (!isEnrolled) {
+           Alert.alert('Not Enrolled', 'No biometrics found. Please set up Face ID or Touch ID in your device settings.');
+           setIsAuthenticating(false);
+           return;
+        }
+
+        const result = await LocalAuthentication.authenticateAsync({
+          promptMessage: 'Authenticate to enable Passkey',
+          fallbackLabel: 'Use Passcode',
+        });
+
+        if (result.success) {
+          setAuthMethod('passkey');
+          setBiometricsEnabled(true);
+          router.replace('/(auth)/login');
+        } else {
+          // User cancelled or failed
+          setIsAuthenticating(false);
+        }
+      } catch (error) {
+        console.error(error);
+        Alert.alert('Error', 'An error occurred during authentication.');
+        setIsAuthenticating(false);
+      }
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -40,6 +97,17 @@ export default function SecurityScreen() {
               </View>
             </View>
             <Text style={styles.cardDescription}>Provide a phone number to use at log in</Text>
+            {method === 'phone' && (
+              <TextInput
+                style={styles.input}
+                placeholder="+1 (555) 000-0000"
+                placeholderTextColor="#64748B"
+                keyboardType="phone-pad"
+                value={phoneNumber}
+                onChangeText={setPhoneNumber}
+                autoFocus
+              />
+            )}
             <Text style={styles.cardHint}>Recommended</Text>
           </Pressable>
         </MotiView>
@@ -72,8 +140,16 @@ export default function SecurityScreen() {
         from={{ opacity: 0, translateY: 8 }}
         animate={{ opacity: 1, translateY: 0 }}
         transition={{ type: 'timing', duration: 450, delay: 300 }}>
-        <Pressable style={styles.nextButton} onPress={() => router.replace('/(auth)/login')}>
-          <Text style={styles.nextText}>Next →</Text>
+        <Pressable 
+          style={[styles.nextButton, isAuthenticating && styles.nextButtonDisabled]} 
+          onPress={handleNext}
+          disabled={isAuthenticating}
+        >
+          {isAuthenticating ? (
+            <ActivityIndicator color="#1E293B" />
+          ) : (
+            <Text style={styles.nextText}>Next →</Text>
+          )}
         </Pressable>
       </MotiView>
     </View>
@@ -171,6 +247,18 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     backgroundColor: '#F8DFA6',
   },
+  input: {
+    backgroundColor: 'rgba(255, 255, 255, 0.1)',
+    borderRadius: 8,
+    padding: 12,
+    color: '#F8DFA6',
+    fontSize: 16,
+    fontFamily: 'Inter_400Regular',
+    marginTop: 8,
+    marginBottom: 8,
+    borderWidth: 1,
+    borderColor: 'rgba(248, 223, 166, 0.3)',
+  },
   footer: {
     paddingBottom: 26,
     alignItems: 'flex-end',
@@ -180,6 +268,12 @@ const styles = StyleSheet.create({
     borderRadius: 28,
     paddingHorizontal: 26,
     paddingVertical: 12,
+    minWidth: 100,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  nextButtonDisabled: {
+    opacity: 0.7,
   },
   nextText: {
     color: '#1E293B',
